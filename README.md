@@ -258,6 +258,10 @@ Keys               | Function
   `gs`             | Switch the current word
 
 
+### SuperTab
+Do all your insert-mode completion with Tab ([more](http://www.vim.org/scripts/script.php?script_id=1643))
+
+
 ### surround
 Delete/change/add parentheses/quotes/XML-tags/much more with ease ([more](http://www.vim.org/scripts/script.php?script_id=1697))
 
@@ -289,7 +293,7 @@ Snippet expansion ([more](https://github.com/SirVer/ultisnips))
 
 Keys                | Function
 ------------------- | --------------------
-  `<Ctrl>``j`       | If you have just typed a snippet trigger, expand it
+  `<Ctrl>``x`       | If the selection is a snippet, expand the snippet
   `<tab>`           | Move to the next part of the snippet which can be edited
 
 
@@ -304,9 +308,6 @@ Better abbreviations, substitution and search with Bash like {a,b} style expansi
 ### vim-airline
 Powerline like behaviour, but without the heavy Python ([more](https://github.com/bling/vim-airline))
 
-
-### vim-completes-me
-Use vims omnifunc tools via the <tab> key when inserting new text. ([more](https://github.com/ajh17/VimCompletesMe))
 
 ### vim-easy-align
 Easy and versatile alignments ([more](https://github.com/junegunn/vim-easy-align))

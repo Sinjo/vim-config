@@ -51,11 +51,13 @@ Plug 'tpope/vim-surround'                                     " Quick editing or
 Plug 'wellle/targets.vim'                                     " Add lots of extra text objects for brachets, quotes, args and more
 
 " Snippets and autocomplete
-Plug 'SirVer/ultisnips'                                       " Add snippet expantion for all kinds of template formats
-Plug 'honza/vim-snippets'                                     " Add many popular shared snippets
-Plug 'tpope/vim-endwise'                                      " Automatically insert programming block endings (ie. `end` in Ruby, `endif` in VimL)
-Plug 'tpope/vim-ragtag'                                       " Provide bindings for closing HTML/XML tags
-Plug 'ajh17/VimCompletesMe'                                   " Very lightweight completion helper
+Plug 'ervandew/supertab'                     " Make tab more useful in triggering Vim omni-complete
+Plug 'SirVer/ultisnips'                      " Add snippet expantion for all kinds of template formats
+Plug 'honza/vim-snippets'                    " Add many popular shared snippets
+Plug 'tpope/vim-endwise'                     " Automatically insert programming block endings (ie. `end` in Ruby, `endif` in VimL)
+Plug 'tpope/vim-ragtag'                      " Provide bindings for closing HTML/XML tags
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+
 
 " Extra syntax highlighting and language support
 Plug 'scrooloose/syntastic'                                   " The Godfather of all syntax highlighting and checking
@@ -88,10 +90,8 @@ endif
 " No More plugins after here thanks!
 
 call plug#end()
+filetype plugin indent on
 syntax on
-filetype on
-filetype indent on
-filetype plugin on
 
 
 " ----------------------------------------------
@@ -484,20 +484,28 @@ let g:ragtag_global_maps = 1
 " ----------------------------------------------
 
 " Enable omni completion.
-autocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType c setlocal omnifunc=ccomplete#CompleteCpp
 
-" Setup autocompletion lookups for VimCompletesMe
-autocmd FileType text,markdown let b:vcm_tab_complete = 'dict'
-autocmd FileType ruby,elixir let b:vcm_tab_complete = 'tags'
+" Look in the tags, comments and strings  for things to autocomplete
+let g:ycm_complete_in_comments = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+
+" Keep the YCM Server from producing too much stuff we're not reading
+let g:ycm_server_log_level = 'warning'
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<C-j>"
+let g:UltiSnipsExpandTrigger = "<C-x>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
@@ -583,12 +591,10 @@ let g:ctrlp_show_hidden = 1
 
 " Use Ag for search if its available on this system
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column
-  set grepformat=%f:%l:%c:%m,%f:%l:%m
+  set grepprg=ag\ --nogroup\ --nocolor
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   let g:ctrlp_use_caching = 0
 endif
-
 
 
 " ----------------------------------------------
