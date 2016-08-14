@@ -142,12 +142,10 @@ set wildmode=list:longest               " Shell-like behaviour for command autoc
 set fillchars+=vert:\                   " Set the window borders to not have | chars in them
 set nojoinspaces                        " Use only 1 space after "." when joining lines instead of 2
 
-
-" Display soft column limit in modern versions of vim
-if version >= 730
-  au WinEnter,FileType * set cc=
-  au WinEnter,FileType ruby,eruby,rspec,cucumber set cc=140
-endif
+" Delete comment character when joining commented lines
+ if v:version > 703 || v:version == 703 && has("patch541")
+   set formatoptions+=j
+ endif
 
 " Show lines which have been break-indented with a special character
 if v:version > 704 || v:version == 704 && has("patch338")
@@ -155,10 +153,11 @@ if v:version > 704 || v:version == 704 && has("patch338")
   set showbreak=↪
 endif
 
-" Delete comment character when joining commented lines
- if v:version > 703 || v:version == 703 && has("patch541")
-   set formatoptions+=j
- endif
+" Display soft column limit in modern versions of vim
+if version >= 730
+  au WinEnter,FileType * set cc=
+  au WinEnter,FileType ruby,eruby,rspec,cucumber set cc=140
+endif
 
 " -----------------------------------
 " Setup file wildcard ignored names
@@ -887,16 +886,6 @@ let g:gitgutter_sign_modified = '~'
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_modified_removed = '~'
 let g:gitgutter_max_signs = 1000
-
-
-" ----------------------------------------------
-" Configure Testing tools
-" ----------------------------------------------
-
-" Vroom (Ruby) settings
-let g:vroom_write_all = 1
-let g:vroom_cucumber_path = 'cucumber '
-let g:vroom_map_keys = 0
 
 
 " ----------------------------------------------
