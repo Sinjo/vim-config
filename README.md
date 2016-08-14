@@ -190,6 +190,15 @@ Keys               | Function
   `?`              | Toggle the help list
 
 
+### NeoComplete
+
+Pop up helpful completions while typing ([more]())
+
+Keys               | Function
+-------------------|--------------------
+  `<tab>`          | Cycle through options
+
+
 ### projector mode
 Toggle 'projector mode': larger font and high contrast colour scheme ([more](https://github.com/AdamWhittingham/projector_mode))
 
