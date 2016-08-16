@@ -261,12 +261,13 @@ vnoremap <silent> <Leader>a= :Tabularize /=<CR>
 vnoremap <silent> <Leader>a=> :Tabularize /=>/l1c1r1<CR>
 vnoremap <silent> <Leader>a, :Tabularize /,\@<=/l0r1<CR>
 vnoremap <silent> <Leader>a{ :Tabularize /{<CR>
+vnoremap <silent> <Leader>at :Tabularize /\|<CR>
 vnoremap <silent> <Leader>a\| :Tabularize /\|<CR>
 vnoremap <silent> <Leader>a: :Tabularize /\w:\zs/l0l1<CR>
 vnoremap <silent> <Leader>a<space> :Tabularize /[^ ] \+\zs/l0r1<CR>
 
 " Start interactive EasyAlign in visual mode (e.g. vipa)
-vmap a <Plug>(LiveEasyAlign)
+vmap aa <Plug>(LiveEasyAlign)
 
 " <Leader>c<space> to toggle comments on a line
 map <silent> <leader>c<space> gcc
@@ -713,7 +714,8 @@ let g:projectionist_heuristics ={
 
 let g:switch_custom_definitions =
     \ [
-    \   ['X', '✔', '✕']
+    \   ['X', '✔', '✕'],
+    \   ['yes', 'no']
     \ ]
 
 " ----------------------------------------------
