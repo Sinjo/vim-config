@@ -1,5 +1,5 @@
 set nocompatible
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugins')
 
 " ----------------------------------------------
 " Define all the plugins!
@@ -8,11 +8,8 @@ call plug#begin('~/.vim/plugged')
 " UI
 Plug 'AdamWhittingham/projector_mode'                         " Toggle between colourschemes for work & projection or screensharing
 Plug 'airblade/vim-gitgutter'                                 " Show the column of changes to the file against git
-Plug 'vim-airline/vim-airline'                                " Add a nicer status line
-Plug 'vim-airline/vim-airline-themes'                         " Themes for Airline
 Plug 'christoomey/vim-tmux-navigator'                         " Move between Vim panes & Tmux panes easily
 Plug 'colorizer'                                              " Show the colour off Hex colour codes
-Plug 'luochen1990/rainbow'                                    " Colour in brachets in matching pairs
 Plug 'mhinz/vim-startify'                                     " Start Vim with a more useful start screen
 Plug 'nathanaelkane/vim-indent-guides'                        " Show indentation level guides
 Plug 'regedarek/ZoomWin'                                      " Enable one pane to be fullscreened temporarily
@@ -51,16 +48,10 @@ Plug 'tpope/vim-surround'                                     " Quick editing or
 Plug 'wellle/targets.vim'                                     " Add lots of extra text objects for brachets, quotes, args and more
 
 " Snippets and autocomplete
-Plug 'ervandew/supertab'                     " Make tab more useful in triggering Vim omni-complete
-Plug 'SirVer/ultisnips'                      " Add snippet expantion for all kinds of template formats
-Plug 'honza/vim-snippets'                    " Add many popular shared snippets
-Plug 'tpope/vim-endwise'                     " Automatically insert programming block endings (ie. `end` in Ruby, `endif` in VimL)
-Plug 'tpope/vim-ragtag'                      " Provide bindings for closing HTML/XML tags
-Plug 'Shougo/neocomplete'                    " Autocomplete based on tags
-
+Plug 'ervandew/supertab'                                      " Make tab more useful in triggering Vim omni-complete
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete Async
 
 " Extra syntax highlighting and language support
-Plug 'scrooloose/syntastic'                                   " The Godfather of all syntax highlighting and checking
 Plug 'sheerun/vim-polyglot'                                   " Currated group of other excellent plugins
 Plug 'niquola/vim-hl7'                                        " HL7 syntax highlighting
 Plug 'slashmili/alchemist.vim'                                " Hook into Elixir Alchemist server for better completions'
@@ -70,7 +61,6 @@ Plug 'janko-m/vim-test'                                       " Add test running
 Plug 'tpope/vim-rbenv'                                        " Use rbenv for Ruby tools
 Plug 'ecomba/vim-ruby-refactoring',    {'for': 'ruby'}        " Extra Ruby refactoring tools
 Plug 'nelstrom/vim-textobj-rubyblock', {'for': 'ruby'}        " Extend % to match Ruby syntax
-Plug 't9md/vim-ruby-xmpfilter',        {'for': 'ruby'}        " Run the current line of Ruby inside Vim
 
 " Elixir
 Plug 'avdgaag/vim-phoenix',            {'for': 'elixir'}      " Add Projectionist, Dispatch and Mix integrations for Phoenix projects
@@ -83,12 +73,11 @@ Plug 'moll/vim-node'                                          " NodeJS syntax su
 
 
 " Load any extra plugins specified in the home directory
-if filereadable(expand("~/.vim.plugins.local"))
-  source ~/.vim.plugins.local
+if filereadable(expand("~/.config/.nvim.plugins.local"))
+  source ~/.config/.nvim.plugins.local
 endif
 
 " No More plugins after here thanks!
-
 call plug#end()
 filetype plugin indent on
 syntax on
@@ -112,20 +101,24 @@ colorscheme adCode
 
 set autoindent                          " Automatically indent based on syntax detection
 set autowrite                           " Writes on make/shell commands
+set background=dark
 set backspace=start,indent,eol
 set backupdir=/var/tmp,~/.tmp,.         " Don't clutter project dirs up with swap files
-set background=dark
-set directory=/var/tmp,~/.tmp,.
+set breakindent
 set cf                                  " Enable error files & error jumping.
 set complete+=kspell
 set cursorline                          " Hilight the line the cursor is on
+set directory=/var/tmp,~/.tmp,.
 set expandtab                           " Convert tabs to spaces AS IS RIGHT AND PROPER
+set fillchars+=vert:\                   " Set the window borders to not have | chars in them
+set formatoptions+=j
 set hidden                              " Allow buffer switching without saving
 set history=1000                        " Remember a decent way back
 set laststatus=2                        " Always show status line.
 set listchars=nbsp:█,eol:¶,tab:>-,extends:»,precedes:«,trail:•
 set mousehide                           " Hide the mouse cursor when typing
 set nofoldenable                        " Disable all folding of content
+set nojoinspaces                        " Use only 1 space after "." when joining lines instead of 2
 set nowrap                              " Line wrapping off
 set number                              " line numbers
 set ruler                               " Ruler on
@@ -133,31 +126,16 @@ set scrolloff=3                         " More context around cursor
 set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
 set shiftwidth=2
 set shortmess+=A
+set showbreak=↪
 set smarttab
 set spelllang=en_gb
-set statusline=%<%f\ %h%m%r%=%-20.(line=%l\ of\ %L,col=%c%V%)\%h%m%r%=%-40(,%n%Y%)\%P%#warningmsg#%{SyntasticStatuslineFlag()}%*
+set statusline=%<%f\ %h%m%r%=%-20.(line=%l\ of\ %L,col=%c%V%)\%h%m%r%=%-40(,%n%Y%)\%P%#warningmsg#%*
 set tabstop=2
 set timeoutlen=500                      " Milliseconds to wait for another key press when evaluating commands
 set wildmode=list:longest               " Shell-like behaviour for command autocompletion
-set fillchars+=vert:\                   " Set the window borders to not have | chars in them
-set nojoinspaces                        " Use only 1 space after "." when joining lines instead of 2
 
-" Delete comment character when joining commented lines
- if v:version > 703 || v:version == 703 && has("patch541")
-   set formatoptions+=j
- endif
-
-" Show lines which have been break-indented with a special character
-if v:version > 704 || v:version == 704 && has("patch338")
-  set breakindent
-  set showbreak=↪
-endif
-
-" Display soft column limit in modern versions of vim
-if version >= 730
-  au WinEnter,FileType * set cc=
-  au WinEnter,FileType ruby,eruby,rspec,cucumber set cc=140
-endif
+au WinEnter,FileType * set cc=
+au WinEnter,FileType ruby,eruby,rspec,cucumber set cc=140
 
 " -----------------------------------
 " Setup file wildcard ignored names
@@ -456,32 +434,20 @@ let g:ansible_options = {'ignore_blank_lines': 0}
 autocmd FileType make set noexpandtab
 
 " RUBY -------------------------------------
-" xmp-filter mappings
-autocmd FileType ruby nmap <buffer> <Leader>X <Plug>(xmpfilter-mark)
-autocmd FileType ruby xmap <buffer> <Leader>X <Plug>(xmpfilter-mark)
-autocmd FileType ruby imap <buffer> <Leader>X <Plug>(xmpfilter-mark)
-
-autocmd FileType ruby nmap <buffer> <Leader>x <Plug>(xmpfilter-run)
-autocmd FileType ruby xmap <buffer> <Leader>x <Plug>(xmpfilter-run)
-autocmd FileType ruby imap <buffer> <Leader>x <Plug>(xmpfilter-run)
-
 " Extend % to do/end etc
 runtime! plugin/matchit.vim
 
 " Fix supertab/endwise incompatibility
 let g:SuperTabCrMapping = 0
 
-" HTML & XML -------------------------------------
-" Don't report Angular ng-* attributes as errors in HTML
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-
 " Enable ragtag XML tag mappings
 let g:ragtag_global_maps = 1
 
 
 " ----------------------------------------------
-" Auto-complete shortcuts
+" Auto-complete
 " ----------------------------------------------
+let g:deoplete#enable_at_startup = 1
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -490,59 +456,13 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 2
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-      \ 'default' : ''
-    \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-
-let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<C-x>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
 
 " ----------------------------------------------
 " Copy file path details to the system clipboard
@@ -609,7 +529,7 @@ let g:startify_skiplist = [
       \ ]
 
 let g:startify_bookmarks = [
-      \ { 'v': '~/.vim/vimrc' },
+      \ { 'v': '~/.config/nvim/init.vim' },
       \ { 't': '/tmp/foo.txt' },
       \ ]
 
@@ -669,28 +589,28 @@ end
 let g:rainbow_active = 0
 
 let g:rainbow_conf = {
-    \   'guifgs':   ['white', '#005fff', '#8700ff', '#af00af', '#af005f'],
-    \   'ctermfgs': ['white', '27',      '93',      '127',     '125'],
-    \   'separately':{
-    \     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/'],
-    \     'vim': {
-    \        'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
-    \      },
-    \      'xml': {
-    \        'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
-    \      },
-    \      'xhtml': {
-    \        'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
-    \      },
-    \      'html': {
-    \        'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
-    \      },
-    \      'ruby': {
-    \        'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold' ],
-    \      },
-    \      '*': {}
-    \   }
-    \ }
+      \   'guifgs':   ['white', '#005fff', '#8700ff', '#af00af', '#af005f'],
+      \   'ctermfgs': ['white', '27',      '93',      '127',     '125'],
+      \   'separately':{
+      \     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/'],
+      \     'vim': {
+      \        'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+      \      },
+      \      'xml': {
+      \        'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
+      \      },
+      \      'xhtml': {
+      \        'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
+      \      },
+      \      'html': {
+      \        'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+      \      },
+      \      'ruby': {
+      \        'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold' ],
+      \      },
+      \      '*': {}
+      \   }
+      \ }
 
 
 " ----------------------------------------------
@@ -713,10 +633,10 @@ let g:projectionist_heuristics ={
 
 
 let g:switch_custom_definitions =
-    \ [
-    \   ['X', '✔', '✕'],
-    \   ['yes', 'no']
-    \ ]
+      \ [
+      \   ['X', '✔', '✕'],
+      \   ['yes', 'no']
+      \ ]
 
 " ----------------------------------------------
 " Setup the status bar
@@ -729,7 +649,7 @@ let g:airline_right_alt_sep = ""
 let g:airline_section_z = '%c, %l/%L'
 
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#syntastic#enabled = 0
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#tagbar#enabled = 0
 
@@ -744,17 +664,6 @@ let g:bufExplorerDisableDefaultKeyMapping=1
 
 
 " ----------------------------------------------
-" Setup Syntastic
-" ----------------------------------------------
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=1
-
-if executable('eslint')
-  let g:syntastic_javascript_checkers = ['eslint']
-endif
-
-
-" ----------------------------------------------
 " Setup ctags
 " ----------------------------------------------
 
@@ -765,112 +674,17 @@ let g:gutentags_tagfile = '.tags'
 " ----------------------------------------------
 " Setup NERDTree
 " ----------------------------------------------
-" A whole bunch of NERDTree configuration stolen from carlhuda's janus
-let NERDTreeIgnore=['\.rbc$', '\~$']
 
-" Make NERDTree close when you open a file from it. Helps recover screen space!
+" Make NERDTree close when you open a file from it.
 let NERDTreeQuitOnOpen=1
 
-" Disable netrw's autocmd, since we're ALWAYS using NERDTree
+" Disable netrw's autocmd, since we're always using NERDTree
 runtime plugin/netRwPlugin.vim
 augroup FileExplorer
   au!
 augroup END
 
 let g:NERDTreeHijackNetrw = 0
-
-" If the parameter is a directory (or there was no parameter), open NERDTree
-function s:NERDTreeIfDirectory(directory)
-  if isdirectory(a:directory) || a:directory == ""
-    NERDTree
-  endif
-endfunction
-
-" If the parameter is a directory, cd into it
-function s:CdIfDirectory(directory)
-  if isdirectory(a:directory)
-    call ChangeDirectory(a:directory)
-  endif
-endfunction
-
-" NERDTree utility function
-function s:UpdateNERDTree(stay)
-  if exists("t:NERDTreeBufName")
-    if bufwinnr(t:NERDTreeBufName) != -1
-      NERDTree
-      if !a:stay
-        wincmd p
-      end
-    endif
-  endif
-endfunction
-
-" Utility functions to create file commands
-function s:CommandCabbr(abbreviation, expansion)
-  execute 'cabbrev ' . a:abbreviation . ' <c-r>=getcmdpos() == 1 && getcmdtype() == ":" ? "' . a:expansion . '" : "' . a:abbreviation . '"<CR>'
-endfunction
-
-function s:FileCommand(name, ...)
-  if exists("a:1")
-    let funcname = a:1
-  else
-    let funcname = a:name
-  endif
-
-  execute 'command -nargs=1 -complete=file ' . a:name . ' :call ' . funcname . '(<f-args>)'
-endfunction
-
-function s:DefineCommand(name, destination)
-  call s:FileCommand(a:destination)
-  call s:CommandCabbr(a:name, a:destination)
-endfunction
-
-" Public NERDTree-aware versions of builtin functions
-function ChangeDirectory(dir, ...)
-  execute "cd " . a:dir
-  let stay = exists("a:1") ? a:1 : 1
-  call s:UpdateNERDTree(stay)
-endfunction
-
-function Touch(file)
-  execute "!touch " . a:file
-  call s:UpdateNERDTree(1)
-endfunction
-
-function Remove(file)
-  let current_path = expand("%")
-  let removed_path = fnamemodify(a:file, ":p")
-
-  if (current_path == removed_path) && (getbufvar("%", "&modified"))
-    echo "You are trying to remove the file you are editing. Please close the buffer first."
-  else
-    execute "!rm " . a:file
-  endif
-endfunction
-
-function Edit(file)
-  if exists("b:NERDTreeRoot")
-    wincmd p
-  endif
-
-  execute "e " . a:file
-
-ruby << RUBY
-  destination = File.expand_path(VIM.evaluate(%{system("dirname " . a:file)}))
-  pwd         = File.expand_path(Dir.pwd)
-  home        = pwd == File.expand_path("~")
-
-  if home || Regexp.new("^" + Regexp.escape(pwd)) !~ destination
-    VIM.command(%{call ChangeDirectory(system("dirname " . a:file), 0)})
-  end
-RUBY
-endfunction
-
-" Define the NERDTree-aware aliases
-call s:DefineCommand("cd", "ChangeDirectory")
-call s:DefineCommand("touch", "Touch")
-call s:DefineCommand("rm", "Remove")
-
 
 " ----------------------------------------------
 " Setup filetype specific settings
@@ -904,20 +718,8 @@ let g:gitgutter_max_signs = 1000
 " Configure dynamic code execution tools
 " ----------------------------------------------
 
-" xmp-filter mappings
-autocmd FileType ruby nmap <buffer> <Leader>X <Plug>(xmpfilter-mark)
-autocmd FileType ruby xmap <buffer> <Leader>X <Plug>(xmpfilter-mark)
-autocmd FileType ruby imap <buffer> <Leader>X <Plug>(xmpfilter-mark)
-
-autocmd FileType ruby nmap <buffer> <Leader>x <Plug>(xmpfilter-run)
-autocmd FileType ruby xmap <buffer> <Leader>x <Plug>(xmpfilter-run)
-autocmd FileType ruby imap <buffer> <Leader>x <Plug>(xmpfilter-run)
-
 " Disable Markdown folding
 let g:vim_markdown_folding_disabled=1
-
-" Don't report Angular ng-* attributes as errors in HTML
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 
 " Projectionist defaults
 let g:projectionist_heuristics ={
@@ -956,11 +758,11 @@ endfunction
 
 " strip trailing whitespace
 function! StripTrailingWhitespace()
-	normal mz
-	normal Hmy
-	exec '%s/\s*$//g'
-	normal 'yz<cr>
-	normal `z
+  normal mz
+  normal Hmy
+  exec '%s/\s*$//g'
+  normal 'yz<cr>
+  normal `z
 endfunction
 
 " Display Vim syntax groups under the cursor
