@@ -9,5 +9,5 @@ tmp
 bundle/*
 !bundle/Vundle.vim
 !bundle/Vundle.vim/*
-plugged/*
-!plugged/.gitkeep
+plugins/*
+!plugins/.gitkeep
