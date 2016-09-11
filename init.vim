@@ -52,6 +52,7 @@ Plug 'ervandew/supertab'                                      " Make tab more us
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete Async
 
 " Extra syntax highlighting and language support
+Plug 'neomake/neomake'                                        " Syntax highlight & lint multiple languages as you type
 Plug 'sheerun/vim-polyglot'                                   " Currated group of other excellent plugins
 Plug 'niquola/vim-hl7'                                        " HL7 syntax highlighting
 Plug 'slashmili/alchemist.vim'                                " Hook into Elixir Alchemist server for better completions'
@@ -134,8 +135,7 @@ set tabstop=2
 set timeoutlen=500                      " Milliseconds to wait for another key press when evaluating commands
 set wildmode=list:longest               " Shell-like behaviour for command autocompletion
 
-au WinEnter,FileType * set cc=
-au WinEnter,FileType ruby,eruby,rspec,cucumber set cc=140
+au WinEnter,FileType * set cc=          " Disable the red column at 80 characters
 
 " -----------------------------------
 " Setup file wildcard ignored names
@@ -649,7 +649,6 @@ let g:airline_right_alt_sep = ""
 let g:airline_section_z = '%c, %l/%L'
 
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#syntastic#enabled = 0
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#tagbar#enabled = 0
 
@@ -685,6 +684,13 @@ augroup FileExplorer
 augroup END
 
 let g:NERDTreeHijackNetrw = 0
+
+" ----------------------------------------------
+" Setup commands on save of a buffer
+" ----------------------------------------------
+
+" Run neomake to run any associated linters
+autocmd BufWritePost,BufEnter * Neomake
 
 " ----------------------------------------------
 " Setup filetype specific settings
