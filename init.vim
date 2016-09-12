@@ -393,7 +393,7 @@ map <C-w>S :split<CR>
 " C-H and C-L to jump left and right between splits
 map <C-h> <C-w>h
 map <C-l> <C-w>l
-"
+
 " C-J and C-K to jump down and up between splits
 map <C-j> <C-w>j
 map <C-k> <C-w>k
@@ -402,6 +402,10 @@ let g:yankstack_map_keys = 0
 nmap <leader>p <Plug>yankstack_substitute_older_paste
 nmap <leader>P <Plug>yankstack_substitute_newer_paste
 
+" nvim hack to fix <C-h>
+if has('nvim')
+  nmap <bs> :<c-u>TmuxNavigateLeft<cr>
+endif
 
 " ----------------------------------------------
 " Map Uncommon Filetype for Syntax Highlighting
