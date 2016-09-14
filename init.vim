@@ -62,6 +62,7 @@ Plug 'janko-m/vim-test'                                       " Add test running
 
 " Ruby
 Plug 'tpope/vim-rbenv'                                        " Use rbenv for Ruby tools
+Plug 'tpope/vim-endwise'                                      " Auto insert 'end' when opening a block
 Plug 'ecomba/vim-ruby-refactoring',    {'for': 'ruby'}        " Extra Ruby refactoring tools
 Plug 'nelstrom/vim-textobj-rubyblock', {'for': 'ruby'}        " Extend % to match Ruby syntax
 
