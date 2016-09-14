@@ -635,6 +635,12 @@ let g:projectionist_heuristics ={
 
 
 " ----------------------------------------------
+" Configure Neomake
+" ----------------------------------------------
+
+let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
+
+" ----------------------------------------------
 " Setup customer Switch changes
 " ----------------------------------------------
 
